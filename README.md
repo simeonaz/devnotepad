@@ -14,7 +14,7 @@ Build a simple, fast, and local web application that allows a developer to:
 - quickly find them via a filtering system,
 - and copy or delete them with a single click.
 
-**Real goal**: Demonstrate your ability to design a useful, UX-friendly, well-structured, and high-performance tool, without a backend.
+**Real goal**: Demonstrate my ability to design a useful, UX-friendly, well-structured, and high-performance tool, without a backend.
 
 ---
 
