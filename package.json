@@ -1,0 +1,34 @@
+{
+  "name": "devtools-notepad",
+  "private": true,
+  "type": "module",
+  "author": {
+    "name": "Siméon Azogbonon",
+    "email": "simeonazogbonon@gmail.com"
+  },
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "A simple notepad application built with Nuxt 4 and Vue 3.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simeonaz/devtools-notepad.git"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "nuxt": "^4.0.1",
+    "tailwindcss": "^4.1.11",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "@nuxt/icon": "^1.15.0"
+  }
+}
