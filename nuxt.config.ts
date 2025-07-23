@@ -1,10 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: [
     "@nuxt/icon",
+    "@vueuse/nuxt",
     [
       "@nuxtjs/google-fonts",
       {
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
   },
   icon: {
     serverBundle: {
-      collections: ["mdi"],
+      collections: ["mdi", "hugeicons"],
     },
   },
 });
