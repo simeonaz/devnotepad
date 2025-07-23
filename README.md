@@ -1,6 +1,6 @@
 # DevTools Notepad
 
-> **Author**: Siméon Azogbonon ([simeonazogbonon@gmail.com](mailto:simeonazogbonon@gmail.com))  
+> **Author**: Siméon Azogbonon ([simeonaz.netlify.app](https://simeonaz.netlify.app/))  
 > **GitHub Repo**: [https://github.com/simeonaz/devtools-notepad](https://github.com/simeonaz/devtools-notepad)
 
 ---
