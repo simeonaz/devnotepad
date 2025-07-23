@@ -7,7 +7,7 @@
     "email": "simeonazogbonon@gmail.com"
   },
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple notepad application built with Nuxt 4 and Vue 3.",
   "repository": {
     "type": "git",
