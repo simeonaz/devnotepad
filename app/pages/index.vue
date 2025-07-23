@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useHead({
+  title: 'DevTools Notepad',
+  meta: [
+    { name: 'description', content: 'A simple and usefull notepad for developers.' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+  ]
+});
+</script>
 
 <template>
   <div class="flex flex-col py-4">
