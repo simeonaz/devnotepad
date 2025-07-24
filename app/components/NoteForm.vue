@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { categories as CategoryList, type Category } from "@/utils/categories";
+import { useNotes } from "@/composables/useNotes";
+const { addNote } = useNotes();
 
 const emit = defineEmits(["close"]);
 const close = () => {
@@ -8,15 +10,23 @@ const close = () => {
 
 const showForm = ref(false);
 const showDropdown = ref(false);
+const isLoading = ref(false);
 const search = ref("");
 const selected = ref("");
 const categories = ref<Category[]>(CategoryList);
+const note = ref<Note>({
+  id: "",
+  title: "",
+  content: "",
+  category: "",
+  createdAt: new Date().toISOString(),
+});
+
+const dropdownRef = ref<HTMLElement | null>(null);
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
-
-const dropdownRef = ref<HTMLElement | null>(null);
 
 const handleClickOutside = (e: MouseEvent) => {
   if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
@@ -24,9 +34,10 @@ const handleClickOutside = (e: MouseEvent) => {
   }
 };
 
-const selectCategory = (category: string) => {
-  selected.value = category;
-  search.value = category;
+const selectCategory = (category: Category) => {
+  selected.value = category.label;
+  search.value = category.label;
+  note.value.category = category.id;
   showDropdown.value = false;
 };
 
@@ -36,6 +47,17 @@ const filteredCategories = computed(() => {
     cat.label.toLowerCase().includes(search.value.toLowerCase())
   );
 });
+
+const saveNote = async () => {
+  if (!note.value.title || !note.value.category) {
+    return;
+  }
+  isLoading.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 700));
+  addNote(note.value);
+  isLoading.value = false;
+  close();
+};
 
 onMounted(() => {
   setTimeout(() => {
@@ -58,6 +80,7 @@ onBeforeMount(() => {
   >
     <form
       v-if="showForm"
+      @submit.prevent="saveNote"
       class="w-[80vw] md:w-[50vw] lg:w-[40vw] bg-background-dark dark:bg-background rounded-xl p-6 shadow-lg transition-opacity duration-300 ease-in-out overflow-y-auto max-h-[95vh] scroll-container"
     >
       <div class="flex flex-col space-y-4">
@@ -86,8 +109,9 @@ onBeforeMount(() => {
             type="text"
             v-model="search"
             @click="toggleDropdown"
-            class="w-full h-8 px-3 border border-gray-300 rounded-md focus:outline-none focus:border-vue-green text-sm"
+            class="w-full h-8 px-3 border border-gray-300 rounded-md focus:outline-none focus:border-vue-green text-sm transition-colors"
             placeholder="Choose a category"
+            required
           />
 
           <ul
@@ -97,7 +121,7 @@ onBeforeMount(() => {
             <li
               v-for="category in filteredCategories"
               :key="category.id"
-              @click="selectCategory(category.label)"
+              @click="selectCategory(category)"
               class="px-3 py-2 hover:bg-vue-green/10 cursor-pointer text-sm flex items-center"
             >
               <span
@@ -123,6 +147,9 @@ onBeforeMount(() => {
           <input
             id="title"
             type="text"
+            placeholder="Enter note title"
+            v-model="note.title"
+            required
             class="flex items-center w-full h-8 px-2 sm:px-4 rounded-md border border-gray-400 focus:outline-none focus:border-vue-green sm:text-sm transition-colors"
           />
         </div>
@@ -133,16 +160,21 @@ onBeforeMount(() => {
           </label>
           <textarea
             id="content"
+            v-model="note.content"
             rows="4"
+            placeholder="Write your note here..."
             class="w-full p-2 sm:p-4 rounded-md border border-background dark:border-gray-400 focus:outline-none focus:border-vue-green sm:text-sm transition-colors"
           ></textarea>
         </div>
 
         <button
-          type="button"
-          class="cursor-pointer bg-vue-green h-8 flex items-center justify-center rounded-lg px-3 py-1 text-background dark:text-background-dark text-sm font-semibold hover:bg-vue-green/90 transition-colors"
+          type="submit"
+          :disabled="isLoading"
+          class="cursor-pointer bg-vue-green h-8 flex items-center justify-center rounded-lg px-3 py-1 text-background dark:text-background-dark text-sm font-semibold hover:bg-vue-green/90 transition-colors relative"
         >
-          Save Note
+          <span v-if="isLoading" class="loader mr-2"></span>
+          <span v-if="!isLoading">Save Note</span>
+          <span v-else>Saving...</span>
         </button>
       </div>
     </form>

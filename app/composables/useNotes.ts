@@ -3,6 +3,7 @@ export type Note = {
   title: string;
   content: string;
   category: string;
+  createdAt: string; // ISO date string
 };
 
 const STORAGE_KEY = "devtools_notes";
@@ -24,6 +25,9 @@ export function useNotes() {
   }
 
   function addNote(note: Note) {
+    const id = crypto.randomUUID();
+    note.id = id;
+    note.createdAt = new Date().toISOString();
     notes.value.push(note);
     saveNotes();
   }
