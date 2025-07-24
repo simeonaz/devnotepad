@@ -3,12 +3,6 @@
 @layer base {
   body {
     font-family: "Inter", "Roboto", "Lato", ui-sans-serif, system-ui, sans-serif;
-    background-color: #f3f4f6;
-    color: #1f2937;
-  }
-  .dark body {
-    background-color: #111827;
-    color: #e5e7eb;
   }
 }
 

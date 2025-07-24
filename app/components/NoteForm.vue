@@ -81,20 +81,18 @@ onBeforeMount(() => {
     <form
       v-if="showForm"
       @submit.prevent="saveNote"
-      class="w-[80vw] md:w-[50vw] lg:w-[40vw] bg-background-dark dark:bg-background rounded-xl p-6 shadow-lg transition-opacity duration-300 ease-in-out overflow-y-auto max-h-[95vh] scroll-container"
+      class="w-[80vw] md:w-[50vw] lg:w-[40vw] bg-background rounded-xl p-6 shadow-lg transition-opacity duration-300 ease-in-out overflow-y-auto max-h-[95vh] scroll-container"
     >
       <div class="flex flex-col space-y-4">
         <div class="flex items-center justify-between">
-          <h2
-            class="text-lg font-semibold text-background dark:text-background-dark"
-          >
+          <h2 class="text-lg font-semibold text-background-dark">
             Add a new note
           </h2>
 
           <button
             @click="close"
             type="button"
-            class="text-background dark:text-black hover:text-gray-500 transition-colors duration-75 cursor-pointer"
+            class="text-black hover:text-gray-500 transition-colors duration-75 cursor-pointer"
           >
             <Icon name="mdi:close" size="20" />
           </button>
@@ -163,14 +161,14 @@ onBeforeMount(() => {
             v-model="note.content"
             rows="4"
             placeholder="Write your note here..."
-            class="w-full p-2 sm:p-4 rounded-md border border-background dark:border-gray-400 focus:outline-none focus:border-vue-green sm:text-sm transition-colors"
+            class="w-full p-2 sm:p-4 rounded-md border border-gray-400 focus:outline-none focus:border-vue-green sm:text-sm transition-colors"
           ></textarea>
         </div>
 
         <button
           type="submit"
           :disabled="isLoading"
-          class="cursor-pointer bg-vue-green h-8 flex items-center justify-center rounded-lg px-3 py-1 text-background dark:text-background-dark text-sm font-semibold hover:bg-vue-green/90 transition-colors relative"
+          class="cursor-pointer bg-vue-green h-8 flex items-center justify-center rounded-lg px-3 py-1 text-background-dark text-sm font-semibold hover:bg-vue-green/90 transition-colors relative"
         >
           <span v-if="isLoading" class="loader mr-2"></span>
           <span v-if="!isLoading">Save Note</span>

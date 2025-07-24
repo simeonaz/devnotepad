@@ -2,7 +2,13 @@
 const showForm = ref(false);
 const toggleForm = () => {
   showForm.value = !showForm.value;
+  getNotes();
 };
+const notesList = ref<Note[]>([]);
+
+function getNotes() {
+  return useNotes().notes.value;
+}
 
 useHead({
   title: "DevTools Notepad",
@@ -14,6 +20,11 @@ useHead({
     { name: "viewport", content: "width=device-width, initial-scale=1" },
   ],
 });
+
+onMounted(() => {
+  notesList.value = getNotes();
+  // console.log("Notes loaded:", notesList.value);
+});
 </script>
 
 <template>
@@ -22,10 +33,14 @@ useHead({
       <button
         @click="toggleForm"
         type="button"
-        class="cursor-pointer bg-vue-green rounded-lg px-3 py-1 text-background dark:text-background-dark text-sm font-semibold hover:bg-vue-green/90 transition-colors"
+        class="cursor-pointer bg-vue-green rounded-lg px-3 py-1 text-background-dark text-sm font-semibold hover:bg-vue-green/90 transition-colors"
       >
-        + Add
+        + Add Note
       </button>
+    </div>
+
+    <div class="mt-4">
+      <NoteList :listOfNotes="notesList" />
     </div>
   </div>
   <NoteForm v-if="showForm" @close="toggleForm" />
