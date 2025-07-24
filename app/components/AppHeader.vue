@@ -15,7 +15,7 @@ const links = [
 
 <template>
   <header
-    class="h-[64px] sticky top-0 z-50 border-b bg-background-dark/80 border-gray-800"
+    class="h-[64px] sticky top-0 z-50 border-b bg-background-dark/98 border-gray-800"
   >
     <div
       class="px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl h-full flex items-center justify-between"

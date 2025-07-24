@@ -1,8 +1,8 @@
 export type Category = {
   id: string;
   label: string;
-  color?: string;
-  icon?: string;
+  color: string;
+  icon: string;
 };
 
 export const categories: Category[] = [

@@ -3,11 +3,6 @@ import { categories as CategoryList, type Category } from "@/utils/categories";
 import { useNotes } from "@/composables/useNotes";
 const { addNote } = useNotes();
 
-const emit = defineEmits(["close"]);
-const close = () => {
-  emit("close");
-};
-
 const showForm = ref(false);
 const showDropdown = ref(false);
 const isLoading = ref(false);
@@ -22,7 +17,16 @@ const note = ref<Note>({
   createdAt: new Date().toISOString(),
 });
 
+const props = defineProps<{
+  noteToEdit: Note | null;
+}>();
+
 const dropdownRef = ref<HTMLElement | null>(null);
+
+const emit = defineEmits(["close"]);
+const close = () => {
+  emit("close");
+};
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
@@ -48,13 +52,36 @@ const filteredCategories = computed(() => {
   );
 });
 
+const setEdit = () => {
+  if (props.noteToEdit) {
+    note.value = { ...props.noteToEdit };
+    selected.value =
+      categories.value.find((cat) => cat.id === props.noteToEdit?.category)
+        ?.label || "";
+    search.value =
+      categories.value.find((cat) => cat.id === props.noteToEdit?.category)
+        ?.label || "";
+  }
+};
+
 const saveNote = async () => {
   if (!note.value.title || !note.value.category) {
     return;
   }
-  isLoading.value = true;
+
   await new Promise((resolve) => setTimeout(resolve, 700));
-  addNote(note.value);
+  isLoading.value = true;
+
+  if (props.noteToEdit) {
+    // Update existing note
+    note.value.createdAt = new Date().toISOString();
+    useNotes().updateNote(note.value);
+  } else {
+    // Add new note
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    addNote(note.value);
+  }
+
   isLoading.value = false;
   close();
 };
@@ -65,6 +92,8 @@ onMounted(() => {
   }, 100);
 
   document.addEventListener("click", handleClickOutside);
+
+  setEdit();
 });
 
 onBeforeMount(() => {

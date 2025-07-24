@@ -9,9 +9,14 @@ export type Note = {
 const STORAGE_KEY = "devtools_notes";
 
 export function useNotes() {
-  const notes = ref<Note[]>(
-    JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")
-  );
+  const notes = ref<Note[]>([]);
+
+  if (process.client) {
+    notes.value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]").sort(
+      (a: Note, b: Note) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }
 
   function loadNotes() {
     const storedNotes = localStorage.getItem(STORAGE_KEY);
