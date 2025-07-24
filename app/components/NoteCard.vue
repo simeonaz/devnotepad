@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// TODO - Limit the number of characters in the note title and content
 import { type Note } from "@/composables/useNotes";
 import { categories as CategoryList, type Category } from "@/utils/categories";
 
