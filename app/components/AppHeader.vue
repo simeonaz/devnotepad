@@ -3,7 +3,7 @@ const links = [
   {
     title: "GitHub",
     icon: "mdi:github",
-    link: "https://github.com/simeonaz/devtools-notepad",
+    link: "https://github.com/simeonaz",
   },
   {
     title: "X",
@@ -23,7 +23,7 @@ const links = [
       <h1
         class="text-lg md:text-xl font-semibold tracking-normal flex items-center space-x-1"
       >
-        <span class="text-background">📝DevTools</span>
+        <span class="text-background">📝Dev</span>
         <span class="text-vue-green">NotePad</span>
       </h1>
 

@@ -25,7 +25,7 @@ const closeForm = () => {
 };
 
 useHead({
-  title: "DevTools Notepad",
+  title: "Dev Notepad",
   meta: [
     {
       name: "description",
@@ -59,4 +59,5 @@ onMounted(() => {
     />
   </div>
   <NoteForm v-if="showForm" :noteToEdit="noteToEdit" @close="closeForm" />
+  <AddButton @click="toggleForm" />
 </template>
