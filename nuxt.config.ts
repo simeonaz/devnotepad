@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/icon",
     "@vueuse/nuxt",
+    "@vite-pwa/nuxt",
     [
       "@nuxtjs/google-fonts",
       {
@@ -25,6 +26,18 @@ export default defineNuxtConfig({
   icon: {
     serverBundle: {
       collections: ["mdi", "hugeicons"],
+    },
+  },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Dev Notepad",
+      short_name: "Notepad",
+      description: "A simple and useful notepad for developers.",
+      theme_color: "#42b883",
+      background_color: "#ffffff",
+      display: "standalone",
+      start_url: "/",
     },
   },
 });
