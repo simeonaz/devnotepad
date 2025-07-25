@@ -4,9 +4,7 @@ import { useNotes } from "@/composables/useNotes";
 const { addNote } = useNotes();
 
 const showForm = ref(false);
-const showDropdown = ref(false);
 const isLoading = ref(false);
-const search = ref("");
 const selected = ref("");
 const categories = ref<Category[]>(CategoryList);
 const note = ref<Note>({
@@ -21,44 +19,15 @@ const props = defineProps<{
   noteToEdit: Note | null;
 }>();
 
-const dropdownRef = ref<HTMLElement | null>(null);
-
 const emit = defineEmits(["close"]);
 const close = () => {
   emit("close");
 };
 
-const toggleDropdown = () => {
-  showDropdown.value = !showDropdown.value;
-};
-
-const handleClickOutside = (e: MouseEvent) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
-    showDropdown.value = false;
-  }
-};
-
-const selectCategory = (category: Category) => {
-  selected.value = category.label;
-  search.value = category.label;
-  note.value.category = category.id;
-  showDropdown.value = false;
-};
-
-const filteredCategories = computed(() => {
-  if (!search.value) return categories.value;
-  return categories.value.filter((cat) =>
-    cat.label.toLowerCase().includes(search.value.toLowerCase())
-  );
-});
-
 const setEdit = () => {
   if (props.noteToEdit) {
     note.value = { ...props.noteToEdit };
     selected.value =
-      categories.value.find((cat) => cat.id === props.noteToEdit?.category)
-        ?.label || "";
-    search.value =
       categories.value.find((cat) => cat.id === props.noteToEdit?.category)
         ?.label || "";
   }
@@ -91,14 +60,11 @@ onMounted(() => {
     showForm.value = true;
   }, 100);
 
-  document.addEventListener("click", handleClickOutside);
-
   setEdit();
 });
 
 onBeforeMount(() => {
   showForm.value = false;
-  document.removeEventListener("click", handleClickOutside);
 });
 </script>
 
@@ -127,45 +93,7 @@ onBeforeMount(() => {
           </button>
         </div>
 
-        <div class="relative w-full" ref="dropdownRef">
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Category</label
-          >
-
-          <input
-            type="text"
-            v-model="search"
-            @click="toggleDropdown"
-            class="w-full h-8 px-3 border border-gray-300 rounded-md focus:outline-none focus:border-vue-green text-sm transition-colors"
-            placeholder="Choose a category"
-            required
-          />
-
-          <ul
-            v-if="showDropdown"
-            class="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md max-h-40 overflow-y-auto shadow-lg scroll-container"
-          >
-            <li
-              v-for="category in filteredCategories"
-              :key="category.id"
-              @click="selectCategory(category)"
-              class="px-3 py-2 hover:bg-vue-green/10 cursor-pointer text-sm flex items-center"
-            >
-              <span
-                class="inline-flex items-center mr-2"
-                :style="{ color: category.color }"
-                ><Icon v-if="category.icon" :name="category.icon" size="18"
-              /></span>
-              <span>{{ category.label }}</span>
-            </li>
-            <li
-              v-if="filteredCategories.length === 0"
-              class="px-3 py-2 text-gray-400 text-sm"
-            >
-              No categories found
-            </li>
-          </ul>
-        </div>
+        <CategorySelect v-model="note.category" />
 
         <div class="flex flex-col space-y-1">
           <label for="title" class="block text-sm font-medium text-gray-700">
@@ -207,14 +135,3 @@ onBeforeMount(() => {
     </form>
   </div>
 </template>
-
-<style scoped>
-.scroll-container {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-}
-
-.scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-</style>

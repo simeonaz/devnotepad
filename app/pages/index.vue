@@ -41,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col py-4 space-y-8">
+  <div class="flex flex-col py-6">
     <div class="flex items-start">
       <button
         @click="toggleForm"
@@ -52,11 +52,13 @@ onMounted(() => {
       </button>
     </div>
 
-    <NoteList
-      :listOfNotes="notesList"
-      @refresh="getNotes"
-      @edit="startEdition"
-    />
+    <div class="">
+      <NoteList
+        :listOfNotes="notesList"
+        @refresh="getNotes"
+        @edit="startEdition"
+      />
+    </div>
   </div>
   <NoteForm v-if="showForm" :noteToEdit="noteToEdit" @close="closeForm" />
   <AddButton @click="toggleForm" />
