@@ -26,8 +26,7 @@ const deleteOneNote = (noteId: string) => {
 };
 
 const filteredNotes = computed(() => {
-  if (!selectedCategoryId.value)
-    return props.listOfNotes;
+  if (!selectedCategoryId.value) return props.listOfNotes;
   return props.listOfNotes.filter(
     (note) => note.category === selectedCategoryId.value
   );
@@ -41,10 +40,16 @@ onMounted(() => {
 <template>
   <div class="mt-6">
     <div class="flex w-full md:w-[45vw] lg:w-[30vw]">
-      <CategorySelect v-model="selectedCategoryId" placeholder="All" />
+      <CategorySelect
+        v-model="selectedCategoryId"
+        background="#1F2937"
+        border-color="#1E293B"
+        text-color="#F8FAFC"
+        label="Filter by category"
+      />
     </div>
   </div>
-  <div class="mt-12 w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="mt-6 w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     <NoteCard
       v-for="note in filteredNotes"
       :key="note.id"

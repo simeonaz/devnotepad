@@ -8,6 +8,9 @@ const props = defineProps<{
   heigth?: string;
   placeholder?: string;
   label?: string;
+  background?: string;
+  borderColor?: string;
+  textColor?: string;
 }>();
 const emit = defineEmits(["update:modelValue"]);
 
@@ -47,6 +50,10 @@ const filteredCategories = computed(() => {
   );
 });
 
+const otherCategory = computed(
+  () => categories.value.find((cat) => cat.id === "other") || null
+);
+
 const handleClickOutside = (e: MouseEvent) => {
   if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
     showDropdown.value = false;
@@ -74,19 +81,30 @@ onBeforeUnmount(() => {
     :style="{ width: props.width || '100%' }"
     ref="dropdownRef"
   >
-    <label class="block text-sm font-medium text-gray-700 mb-1">{{
-      props.label || "Category"
-    }}</label>
+    <label
+      class="block text-sm font-medium mb-1"
+      :style="{ color: props.textColor || '#364153' }"
+      >{{ props.label || "Category" }}</label
+    >
     <div class="relative">
       <input
         type="text"
         v-model="search"
         @focus="showDropdown = true"
-        class="w-full h-8 px-3 border border-gray-400 rounded-md focus:outline-none focus:border-vue-green text-sm transition-colors"
+        class="w-full h-8 px-3 border rounded-md focus:outline-none focus:border-vue-green text-sm transition-colors"
         :placeholder="props.placeholder || 'Choose a category'"
+        :style="{
+          backgroundColor: props.background || 'inherit',
+          borderColor: props.borderColor || '#99a1af',
+          color: props.textColor || 'black',
+        }"
         required
       />
-      <button v-if="selected" class="cursor-pointer absolute z-50 inset-y-0 right-3 text-gray-500" @click="clear">
+      <button
+        v-if="selected"
+        class="cursor-pointer absolute z-50 inset-y-0 right-3 text-gray-500"
+        @click="clear"
+      >
         <Icon name="mdi:close" size="16" />
       </button>
     </div>
@@ -110,9 +128,22 @@ onBeforeUnmount(() => {
       </li>
       <li
         v-if="filteredCategories.length === 0"
-        class="px-3 py-2 text-gray-400 text-sm"
+        class="px-3 py-2 hover:bg-vue-green/10 cursor-pointer text-sm flex items-center"
+        @click="otherCategory && selectCategory(otherCategory)"
       >
-        No categories found
+        <span
+          v-if="otherCategory"
+          class="inline-flex items-center mr-2"
+          :style="{ color: otherCategory.color }"
+        >
+          <Icon
+            v-if="otherCategory.icon"
+            :name="otherCategory.icon"
+            size="18"
+          />
+        </span>
+        <span v-if="otherCategory">{{ otherCategory.label }}</span>
+        <span v-else>No categories found</span>
       </li>
     </ul>
   </div>
