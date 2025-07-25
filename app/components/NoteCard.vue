@@ -1,7 +1,8 @@
 <script setup lang="ts">
-// TODO - Limit the number of characters in the note title and content
 import { type Note } from "@/composables/useNotes";
 import { categories as CategoryList, type Category } from "@/utils/categories";
+import { useClipboard } from "@/composables/useClipboard";
+const { copyToClipboard } = useClipboard();
 
 const props = defineProps({
   note: {
@@ -32,6 +33,10 @@ const editNote = () => {
 const deleteNote = () => {
   emit("delete");
 };
+
+const limitText = (text: string, limit: number) => {
+  return text.length > limit ? text.slice(0, limit) + "..." : text;
+};
 </script>
 
 <template>
@@ -45,30 +50,45 @@ const deleteNote = () => {
             <Icon :name="category?.icon" size="1.5em" />
           </div>
 
-          <div class="text-background/95 text-sm font-semibold">
-            {{ props.note?.title || "Untitled" }}
+          <div
+            class="text-background/95 text-sm font-semibold"
+            @click="editNote()"
+          >
+            {{ limitText(props.note?.title, 25) || "Untitled" }}
           </div>
         </div>
 
         <!-- actions -->
-        <div class="flex items-center space-x-2 text-white">
+        <div class="flex items-center space-x-2 text-background/75">
           <button
-            @click="editNote()"
+            @click="copyToClipboard(props.note.content || props.note.title)"
+            title="Copy to clipboard"
             class="hover:text-vue-green transition-colors cursor-pointer"
           >
-            <Icon name="mdi:edit" size="20" />
+            <Icon name="mdi:clipboard" size="22" />
+          </button>
+          <button
+            @click="editNote()"
+            title="Edit note"
+            class="hover:text-vue-green transition-colors cursor-pointer"
+          >
+            <Icon name="mdi:edit" size="22" />
           </button>
           <button
             @click="deleteNote()"
+            title="Delete note"
             class="hover:text-vue-green transition-colors cursor-pointer"
           >
-            <Icon name="mdi:trash" size="20" />
+            <Icon name="mdi:trash" size="22" />
           </button>
         </div>
       </div>
 
-      <p class="mt-2 text-gray-500 text-sm font-light leading-relaxed">
-        {{ props.note?.content || "No content available." }}
+      <p
+        class="mt-2 text-gray-500 text-sm font-light leading-relaxed"
+        @click="editNote()"
+      >
+        {{ limitText(props.note?.content, 50) || "No content available." }}
       </p>
     </div>
   </div>

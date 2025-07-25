@@ -27,14 +27,14 @@ Build a simple, fast, and local web application that allows a developer to:
 2. **Display and manage notes**
    - List of notes as cards or accordion
    - Shows title, content, and category
-   - Buttons: 🗑️ Delete, 📋 Copy (Clipboard API)
+   - Buttons: 🗑️ Delete, Edit, 📋 Copy (Clipboard API)
    - Filter by category
 
-3. **Light/Dark theme**
+<!-- 3. **Light/Dark theme**
    - ☀️🌙 toggle button to switch appearance
-   - Choice is saved in `localStorage`
+   - Choice is saved in `localStorage` -->
 
-4. **Persistence**
+3. **Persistence**
    - Data is stored client-side (`localStorage`)
    - No backend required, fast to deploy, offline ready
 

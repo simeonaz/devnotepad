@@ -21,6 +21,7 @@ const startEdition = (note: Note) => {
 const closeForm = () => {
   showForm.value = false;
   noteToEdit.value = null;
+  getNotes();
 };
 
 useHead({
