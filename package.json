@@ -4,7 +4,8 @@
   "type": "module",
   "author": {
     "name": "Siméon Azogbonon",
-    "email": "simeonazogbonon@gmail.com"
+    "email": "simeonazogbonon@gmail.com",
+    "url": "https://simeonaz.netlify.app"
   },
   "license": "MIT",
   "version": "0.0.1",

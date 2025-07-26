@@ -8,7 +8,10 @@ export type Note = {
 
 const STORAGE_KEY = "devtools_notes";
 
-export function useNotes() {
+// Instance unique partagée
+let notesInstance: ReturnType<typeof createNotesInstance> | null = null;
+
+function createNotesInstance() {
   const notes = ref<Note[]>([]);
 
   if (process.client) {
@@ -29,11 +32,18 @@ export function useNotes() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(notes.value));
   }
 
+  function sortNotes() {
+    notes.value.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }
+
   function addNote(note: Note) {
     const id = crypto.randomUUID();
     note.id = id;
     note.createdAt = new Date().toISOString();
     notes.value.push(note);
+    sortNotes();
     saveNotes();
   }
 
@@ -41,13 +51,14 @@ export function useNotes() {
     const index = notes.value.findIndex((note) => note.id === updatedNote.id);
     if (index !== -1) {
       notes.value[index] = updatedNote;
+      sortNotes();
       saveNotes();
     }
   }
 
   function deleteNote(noteId: string) {
-    // console.log("Deleting note with ID:", noteId);
     notes.value = notes.value.filter((note) => note.id !== noteId);
+    sortNotes();
     saveNotes();
   }
 
@@ -58,4 +69,11 @@ export function useNotes() {
     updateNote,
     deleteNote,
   };
+}
+
+export function useNotes() {
+  if (!notesInstance) {
+    notesInstance = createNotesInstance();
+  }
+  return notesInstance;
 }
