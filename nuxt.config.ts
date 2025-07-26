@@ -22,6 +22,9 @@ export default defineNuxtConfig({
   css: ["@/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      sourcemap: false,
+    },
   },
   icon: {
     serverBundle: {

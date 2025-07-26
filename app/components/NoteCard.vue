@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { type Note } from "@/composables/useNotes";
+import { type Note, useNotes } from "@/composables/useNotes";
 import { categories as CategoryList, type Category } from "@/utils/categories";
 import { useClipboard } from "@/composables/useClipboard";
+
 const { copyToClipboard } = useClipboard();
+const { deleteNote } = useNotes();
 
 const props = defineProps({
   note: {
@@ -26,12 +28,14 @@ const category = computed(() => {
   );
 });
 
-const emit = defineEmits(["edit", "delete"]);
+const emit = defineEmits(["edit", "refresh"]);
 const editNote = () => {
   emit("edit");
 };
-const deleteNote = () => {
-  emit("delete");
+const deletion = () => {
+  deleteNote(props.note.id);
+  emit("refresh");
+  showPopup.value = false;
 };
 
 const handleCopy = () => {
@@ -40,6 +44,11 @@ const handleCopy = () => {
 
 const limitText = (text: string, limit: number) => {
   return text.length > limit ? text.slice(0, limit) + "..." : text;
+};
+
+const showPopup = ref(false);
+const togglePopup = () => {
+  showPopup.value = !showPopup.value;
 };
 </script>
 
@@ -79,7 +88,7 @@ const limitText = (text: string, limit: number) => {
             <Icon name="mdi:edit" size="22" />
           </button>
           <button
-            @click="deleteNote"
+            @click="togglePopup"
             title="Delete note"
             class="hover:text-vue-green transition-colors cursor-pointer"
           >
@@ -96,4 +105,10 @@ const limitText = (text: string, limit: number) => {
       </p>
     </div>
   </div>
+  <DeleteComponent
+    v-if="showPopup"
+    @closeDelete="togglePopup"
+    @deleteNote="deletion"
+    :id="props.note.id"
+  />
 </template>
