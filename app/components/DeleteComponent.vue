@@ -40,7 +40,7 @@ onBeforeMount(() => {
       <div class="flex flex-col space-y-4">
         <div class="flex items-center justify-between">
           <h2 class="text-lg font-semibold text-background-dark">
-            Confirm Delete Note
+            Confirm note deletion
           </h2>
 
           <button
