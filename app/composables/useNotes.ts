@@ -46,6 +46,7 @@ export function useNotes() {
   }
 
   function deleteNote(noteId: string) {
+    // console.log("Deleting note with ID:", noteId);
     notes.value = notes.value.filter((note) => note.id !== noteId);
     saveNotes();
   }

@@ -2,6 +2,7 @@
 import { type Note, useNotes } from "@/composables/useNotes";
 const { deleteNote } = useNotes();
 const selectedCategoryId = ref("");
+const noteToDeleteId = ref("");
 
 const props = defineProps({
   listOfNotes: {
@@ -18,6 +19,17 @@ const refreshNotes = () => {
 
 const editOneNote = (note: Note) => {
   emit("edit", note);
+};
+
+const showPopup = ref(false);
+const togglePopup = (noteId: string) => {
+  noteToDeleteId.value = noteId;
+  showPopup.value = !showPopup.value;
+};
+
+const closePopup = () => {
+  showPopup.value = false;
+  noteToDeleteId.value = "";
 };
 
 const deleteOneNote = (noteId: string) => {
@@ -55,7 +67,7 @@ onMounted(() => {
       :key="note.id"
       :note="note"
       @edit="editOneNote(note)"
-      @delete="deleteOneNote(note.id)"
+      @delete="togglePopup(note.id)"
     />
     <div
       v-if="filteredNotes.length === 0"
@@ -64,4 +76,10 @@ onMounted(() => {
       No notes available. Please add a note.
     </div>
   </div>
+  <DeleteComponent
+    v-if="showPopup"
+    @closeDelete="closePopup"
+    @deleteNote="deleteOneNote(noteToDeleteId)"
+    :id="noteToDeleteId"
+  />
 </template>

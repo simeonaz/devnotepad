@@ -34,6 +34,10 @@ const deleteNote = () => {
   emit("delete");
 };
 
+const handleCopy = () => {
+  copyToClipboard(props.note.content || props.note.title);
+};
+
 const limitText = (text: string, limit: number) => {
   return text.length > limit ? text.slice(0, limit) + "..." : text;
 };
@@ -52,7 +56,7 @@ const limitText = (text: string, limit: number) => {
 
           <div
             class="text-background/95 text-sm font-semibold"
-            @click="editNote()"
+            @click="editNote"
           >
             {{ limitText(props.note?.title, 25) || "Untitled" }}
           </div>
@@ -61,21 +65,21 @@ const limitText = (text: string, limit: number) => {
         <!-- actions -->
         <div class="flex items-center space-x-2 text-background/75">
           <button
-            @click="copyToClipboard(props.note.content || props.note.title)"
+            @click="handleCopy"
             title="Copy to clipboard"
             class="hover:text-vue-green transition-colors cursor-pointer"
           >
             <Icon name="mdi:clipboard" size="22" />
           </button>
           <button
-            @click="editNote()"
+            @click="editNote"
             title="Edit note"
             class="hover:text-vue-green transition-colors cursor-pointer"
           >
             <Icon name="mdi:edit" size="22" />
           </button>
           <button
-            @click="deleteNote()"
+            @click="deleteNote"
             title="Delete note"
             class="hover:text-vue-green transition-colors cursor-pointer"
           >
@@ -86,7 +90,7 @@ const limitText = (text: string, limit: number) => {
 
       <p
         class="mt-2 text-gray-500 text-sm font-light leading-relaxed"
-        @click="editNote()"
+        @click="editNote"
       >
         {{ limitText(props.note?.content, 50) || "No content available." }}
       </p>
