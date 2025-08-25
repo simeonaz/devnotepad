@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: false },
-  // app: { baseURL: "/devtools-notepad/" },
+  app: { baseURL: "/devnotepad/" },
   modules: [
     "@nuxt/icon",
     "@vueuse/nuxt",
