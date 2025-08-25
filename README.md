@@ -1,7 +1,7 @@
 # DevTools Notepad
 
 > **Author**: Siméon Azogbonon ([simeonaz.netlify.app](https://simeonaz.netlify.app/))  
-> **GitHub Repo**: [https://github.com/simeonaz/devtools-notepad](https://github.com/simeonaz/devtools-notepad)
+> **GitHub Repo**: [https://github.com/simeonaz/devnotepad](https://github.com/simeonaz/devnotepad)
 
 ---
 
