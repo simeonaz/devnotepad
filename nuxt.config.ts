@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr: false,
   nitro: { preset: "static" },
-  app: { baseURL: "/devnotepad/" },
+  // app: { baseURL: "/devnotepad/" },
   modules: [
     "@nuxt/icon",
     "@vueuse/nuxt",
